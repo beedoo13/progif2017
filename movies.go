@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-
+	"strconv"
 	"fmt"
 	"log"
 	"net/http"
@@ -37,7 +37,8 @@ func main() {
 		case "POST":
 			Post(w,r)
 		case "DELETE":
-			Delete(w,r)
+			s := r.URL.Path[len("/delete/"):]
+			Delete(w,r,s)
 		default:
 			http.Error(w, "Error", 405)
 			break
