@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset = "utf-8">
+<title>Post</title>
+<head>
+    <script>
+        function post(event) {
+            event.preventDefault();
+            var xhr = new XMLHttpRequest();
+            var i = parseInt(document.getElementById("ID").value);
+            var j = document.getElementById("Movie").value;
+            var k = document.getElementById("Director").value;
+            var l = document.getElementById("Genre").value;
+            var m = parseInt(document.getElementById("Year").value);
+
+            var data = {
+                ID : i;
+                Movie : j;
+                Director : k;
+                Genre : l;
+                Year : m;
+            }
+
+            var json = JSON.stringify(data);
+            xhr.open("POST", "http://localhost:13131/movies/")
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    document.getElementById("a").innerHTML = xhr.responseText;
+                }
+            }
+            xhr.send(json);
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <h1>Post</h1>
+
+        ID : <input type="text" id="ID"><br>
+        Movie : <input type="text" id="Movie"><br>
+        Director : <input type="text" id="Movie"><br>
+        Genre : <input type="text" id="Genre"><br>
+        Year : <input type="text" id="Year"><br>
+        <button onclick = post(event)>Post</button><br>
+        <br><button onclick="Back()">Back</button></br>
+        <script>
+        function Back() {
+            window.history.back();
+        }
+        </script>
+    <span id="a"></span>
+    </div>
+</body>
+</html>
