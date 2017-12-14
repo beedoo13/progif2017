@@ -28,7 +28,7 @@ type movies2 struct {
 }
 
 func main() {
-	port := 13131
+	port := 8097
 
 	http.HandleFunc("/movies/", func(w http.ResponseWriter, r *http.Request) {
 
@@ -51,7 +51,7 @@ func main() {
 }
 
 func GetAll(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:@tcp(167.205.67.251:3306)/movies")
+	db, err := sql.Open("mysql", "root:@tcp(167.205.67.251:3306)/MOVIES")
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
 		log.Fatal(err)
@@ -88,7 +88,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	db, err := sql.Open("mysql", "root:@tcp(167.205.67.251:3306)/movies")
+	db, err := sql.Open("mysql", "root:@tcp(167.205.67.251:3306)/MOVIES")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -103,7 +103,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 func Delete(w http.ResponseWriter, r *http.Request, id string) {
 	idmovie, _ := strconv.Atoi(id)
 
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/movies")
+	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/MOVIES")
 	if err != nil {
 		log.Fatal(err)
 	}
