@@ -51,7 +51,7 @@ func main() {
 }
 
 func GetAll(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/movies")
+	db, err := sql.Open("mysql", "root:@tcp(167.205.67.251:3306)/movies")
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
 		log.Fatal(err)
@@ -88,7 +88,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/movies")
+	db, err := sql.Open("mysql", "root:@tcp(167.205.67.251:3306)/movies")
 	if err != nil {
 		log.Fatal(err)
 	}
