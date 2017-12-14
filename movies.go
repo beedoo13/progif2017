@@ -30,32 +30,19 @@ type movies2 struct {
 func main() {
 	port := 13131
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "home.html")
-	})
-
-	http.HandleFunc("/get/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "get.html")
-	})
-
-	http.HandleFunc("/getall/", func(w http.ResponseWriter, r *http.Request) {
-		GetAll(w, r)
-	})
-
-	http.HandleFunc("/getmovies/", func(w http.ResponseWriter, r *http.Request) {
-		GetMovies(w, r)
-	})
-
-	http.HandleFunc("/post/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "post.html")
-	})
-
 	http.HandleFunc("/movies/", func(w http.ResponseWriter, r *http.Request) {
 
 		switch r.Method {
 
+		case "GET":
+			GetAll(w, r)
+			break
 		case "POST":
 			Insert(w, r)
+			break
+		case "DELETE":
+			s := r.URL.Path[len("/delete/"):]
+			Delete(w, r, s)
 			break
 		}
 	})
@@ -82,35 +69,6 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 
 	for rows.Next() {
 		err := rows.Scan(&film.ID, &film.Movie, &film.Director, &film.Genre, &film.Year)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		json.NewEncoder(w).Encode(&film)
-	}
-
-	err = rows.Err()
-}
-
-func GetMovies(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/movies")
-	w.Header().Set("Content-Type", "application/json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	film := movies{}
-
-	rows, err := db.Query("select Movie from MOVIES")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		err := rows.Scan(&film.Movie)
 		if err != nil {
 			log.Fatal(err)
 		}
